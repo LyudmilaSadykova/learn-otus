@@ -1,6 +1,6 @@
 <template>
   <h1>
-    Определите свою норму воды в день
+    Каталог товаров
   </h1>
 </template>
 
@@ -8,6 +8,9 @@
 
 </script>
 
-<style lang="scss" scoped>
-  
+<style scoped>
+  h1 {
+    color: #283593;
+    text-align: center;
+  }
 </style>
