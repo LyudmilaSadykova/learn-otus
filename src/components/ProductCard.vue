@@ -23,17 +23,16 @@
                 </v-card-text>
                 <v-card-text>
                     <v-rating
-                        v-model="rate"
-                        half-increments
+                        :modelValue="props.product.rating.rate"
                         readonly
                         :length="5"
-                        :size="32"
                     ></v-rating>
                 </v-card-text>
 
                 <v-card-actions>
                     <v-btn
                         variant="tonal"
+                        @click="$emit('addToCart', props.product)"
                     >
                         Добавить в корзину
                     </v-btn>
@@ -45,8 +44,14 @@
                 rounded="0"
                 size="200"
             >
-                <v-img :src="props.product.image"></v-img>
+                <v-img
+                    v-if="props.product.image"
+                    :src="props.product.image"></v-img>
+                <div 
+                    v-else 
+                    class="box"></div>    
             </v-avatar>
+
         </div>
             
     </v-card>
@@ -61,10 +66,12 @@ const props = defineProps({
     }
 })
 
-const rate = ref(props.product.rating.rate);
-
 </script>
 
 <style scoped>
-    
+ .box {
+    background-color: #283593;
+    width: 200px;
+    height: 200px;
+ }   
 </style>
