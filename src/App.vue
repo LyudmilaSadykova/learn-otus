@@ -1,27 +1,24 @@
 <template>
-  <Header v-model:tab="tab" @searchForm="searchForm" />
-  <MainBlock :tab="tab" :filter="filter" />
-  <v-footer class="text-center d-flex flex-column">
-    <div>
-      {{ new Date().getFullYear() }} — <strong>Otus learn</strong>
-    </div>
-  </v-footer>
+  <Header @searchForm="searchForm" />
+  <router-view />
+  <Footer />
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import MainBlock from './view/MainBlock.vue'
-import Header from './components/layout/Header.vue';
+import { onMounted } from 'vue';
+import Header from './view/Header.vue';
+import Footer from './view/Footer.vue';
+import { useCatalog } from './custom/useCatalog';
+import { useStore } from 'vuex';
 
-const tab = ref('Каталог товаров');
-const filter = ref([]);
+const store = useStore();
+const { productList } = useCatalog();
 
-const searchForm = ($event) => {
-  filter.value = $event;
-}
-
+onMounted(() => {
+  store.dispatch('updateProducts', productList);
+})
 </script>
 
-<style scoped>
+<style>
 
 </style>

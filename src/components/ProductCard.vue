@@ -31,10 +31,17 @@
 
                 <v-card-actions>
                     <v-btn
+                        v-if="props.add"
                         variant="tonal"
-                        @click="$emit('addToCart', props.product)"
+                        @click="store.dispatch('addToBasket', props.product)"
                     >
                         Добавить в корзину
+                    </v-btn>
+                    <v-btn
+                        variant="tonal"
+                        @click="router.push({name: 'product', params: { productId: props.product.id }})"
+                    >
+                        Подробнее
                     </v-btn>
                 </v-card-actions>
             </div>
@@ -58,12 +65,21 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+
+const store = useStore();
+const router = useRouter();
 const props = defineProps({
     product: {
         type: Object,
         required: true
-    }
+    },
+    add: {
+        type: Boolean,
+        default: true,
+        required: false
+    },
 })
 
 </script>

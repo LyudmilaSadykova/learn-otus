@@ -1,36 +1,30 @@
 <template>
-    <div v-if="!props.loading">
-      <v-row justify="center">
-        <v-col
-          v-for="(item, index) in productFiltered" 
-          :key="index"
-          cols="12"
-          md="6"
-          >
-          <ProductCard :product="item" @addToCart="$emit('addToCart', $event)"/>
-        </v-col>
-      </v-row>  
-    </div>
-  </template>
+  <h1>{{ Каталог }}</h1>
+  <v-row justify="center">
+    <v-col
+      v-for="(item, index) in productListFiltered" 
+      :key="index"
+      cols="12"
+      md="6"
+      >
+      <ProductCard :product="item"/>
+    </v-col>
+  </v-row> 
+</template>
   
-  <script setup>
-  import { ref, computed} from 'vue';
-  import ProductCard from '../components/ProductCard.vue';
+<script setup>
+import { computed} from 'vue';
+import ProductCard from '../components/ProductCard.vue';
+import { useStore } from 'vuex';
 
-  const props = defineProps(['filter', 'loading', 'productList'])
-    
-  const productFiltered = computed(() => {
-    console.log(props.filter);
-    return props.productList.filter((product) => 
-      ((!props.filter[0] || props.filter[0] && product.title.indexOf(props.filter[0]) > -1) &&
-      (!props.filter[1] || props.filter[1] && product.price > props.filter[1]) && (!props.filter[2] || props.filter[2] && product.price < props.filter[2]))
-    );
-  });
-
-
-
+const store = useStore();
+const productListFiltered = computed(() => store.getters.filteredProducts);
 </script>
   
-<style>
-
+<style scoped>
+h1 {
+  color: #283593;
+  text-align: center;
+  margin-bottom: 15px;
+}
 </style>

@@ -8,6 +8,8 @@ import * as directives from 'vuetify/directives'
 import { aliases, md } from 'vuetify/iconsets/md'
 
 import App from './App.vue'
+import router from './router'
+import store from './store'
 
 const vuetify = createVuetify({
     components,
@@ -24,4 +26,4 @@ const vuetify = createVuetify({
       }
   })
   
-createApp(App).use(vuetify).mount('#app')
+createApp(App).use(vuetify).use(router).use(store).mount('#app')

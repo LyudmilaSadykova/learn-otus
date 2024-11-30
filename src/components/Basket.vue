@@ -3,42 +3,47 @@
         Ваш заказ отправлен успешно!
     </div>
     <div v-else>
-        <ProductCard v-for="item in basketList" :key="item.id" :product="item" @addToCart="$emit('addToCart', $event)"/>
+        <ProductCard v-for="item in basketList" :key="item.id" :product="item" :add="false" />
+        <div v-if="basketList.length" class="clear-btn">
+            <v-btn @click="store.dispatch('clearBasket')">
+                Очистить корзину
+            </v-btn>
+        </div>
         <div v-if="valid" class="valid">
             Проверьте правильность заполнения полей
         </div>
         <Form @submit="onSubmit" :validation-schema="schema" @invalid-submit="onInvalidSubmit">
             <v-row>
-                <v-col cols="3" class="left-col">Имя</v-col>
-                <v-col cols="9">
+                <v-col cols="5" class="left-col">Имя</v-col>
+                <v-col cols="7">
                     <Field name="name" type="string" />
                     <ErrorMessage name="name" />
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="3" class="left-col">Фамилия</v-col>
-                <v-col cols="9">
+                <v-col cols="5" class="left-col">Фамилия</v-col>
+                <v-col cols="7">
                     <Field name="surname" type="string" />
                     <ErrorMessage name="surname" />
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="3" class="left-col">Email</v-col>
-                <v-col cols="9">
+                <v-col cols="5" class="left-col">Email</v-col>
+                <v-col cols="7">
                     <Field name="email" type="email" />
                     <ErrorMessage name="email" />
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="3" class="left-col">Дата рождения</v-col>
-                <v-col cols="9">
+                <v-col cols="5" class="left-col">Дата рождения</v-col>
+                <v-col cols="7">
                     <Field name="birthday" type="string" />
                     <ErrorMessage name="birthday" />
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="3" class="left-col">Страна</v-col>
-                <v-col cols="9">
+                <v-col cols="5" class="left-col">Страна</v-col>
+                <v-col cols="7">
                     <Field name="selectedCountry" as="select">
                         <option value="" disabled>Выберите страну</option>
                         <option value="ru">Россия</option>
@@ -49,29 +54,29 @@
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="3" class="left-col">Адрес</v-col>
-                <v-col cols="9">
+                <v-col cols="5" class="left-col">Адрес</v-col>
+                <v-col cols="7">
                     <Field name="address" type="string" />
                     <ErrorMessage name="address" />
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="3" class="left-col">Номер карты</v-col>
-                <v-col cols="9">
+                <v-col cols="5" class="left-col">Номер карты</v-col>
+                <v-col cols="7">
                     <Field name="card_number" type="number" />
                     <ErrorMessage name="card_number" />
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="3" class="left-col">CVV код карты</v-col>
-                <v-col cols="9">
+                <v-col cols="5" class="left-col">CVV код карты</v-col>
+                <v-col cols="7">
                     <Field name="card_cvv" type="number" />
                     <ErrorMessage name="card_cvv" />
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="3" class="left-col">Имя владельца карты</v-col>
-                <v-col cols="9">
+                <v-col cols="5" class="left-col">Имя владельца карты</v-col>
+                <v-col cols="7">
                     <Field name="card_name" type="string" />
                     <ErrorMessage name="card_name" />
                 </v-col>
@@ -88,24 +93,21 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import ProductCard from './ProductCard.vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as yup from 'yup';
 import axios from 'axios';
+import { useStore } from 'vuex';
+
+const store = useStore();
+const basketList = computed(() => store.getters.getBasketList);
 
 const valid = ref(false)
 const formData = ref([]);
 const loading = ref(true);
 const errorState = ref(false);
 const resSendForm = ref(false);
-
-const props = defineProps({
-    basketList: {
-        type: Object,
-        required: true
-    }
-})
 
 const schema = yup.object({
     name: yup.string().required(),
@@ -121,7 +123,7 @@ const schema = yup.object({
 
 function onSubmit(values) {
     //alert(JSON.stringify(values, null, 2));
-    formData.value = {...props.basketList, ...values};
+    formData.value = {...basketList.value, ...values};
     //console.log(formData.value);
     sendOrder();
 }
@@ -130,9 +132,8 @@ function onInvalidSubmit({ values, errors, results }) {
 }
 
 const sendOrder = async () => {
-  axios.post('http://httpbin.org/post', formData.value)
+  await axios.post('http://httpbin.org/post', formData.value)
   .then(response => {
-    console.log(response);
     if (response.status === 200)
         resSendForm.value = true;
   })
@@ -171,6 +172,11 @@ input, select {
 .search-btn {
     justify-content: center;
     display: flex;
+}
+.clear-btn {
+    justify-content: center;
+    display: flex;
+    margin-top: 20px;
 }
 button {
     border: 1px solid #283593;
