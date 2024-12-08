@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="store.dispatch('updateFilters', [name, price_from, price_to])">
+    <form @submit.prevent="catalogStore.updateFilters([name, price_from, price_to])">
         <div class="search-form">
             <div class="search-block">
                 <div>
@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="search-btn">
-                <v-btn variant="tonal" @click="store.dispatch('updateFilters', [name, price_from, price_to])">
+                <v-btn variant="tonal" @click="catalogStore.updateFilters([name, price_from, price_to])">
                     Поиск
                 </v-btn>
             </div>
@@ -39,9 +39,9 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useStore } from 'vuex';
+import { useCatalogStore } from '../store/catalog';
 
-const store = useStore();
+const catalogStore = useCatalogStore();
 
 const name = ref('');
 const price_from = ref(0)

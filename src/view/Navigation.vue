@@ -4,20 +4,18 @@
         <span><router-link to="/products">Каталог</router-link></span>
         <span><router-link to="/basket">Корзина</router-link></span>
         <span><router-link to="/add-product">Добавить новый товар</router-link></span>
-        <span v-if="!checkLogin"><router-link to="/login">Войти</router-link></span>
+        <span v-if="accountStore.isAuth"><router-link to="/account">Профиль</router-link></span>
+        <span v-if="!accountStore.isAuth"><router-link to="/login">Войти</router-link></span>
+        <span v-else><a @click="accountStore.logoutUser();router.push({ name: 'login' });">Выйти</a></span>
     </div>
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { useAccountStore } from '../store/user';
+import { useRouter } from 'vue-router';
 
-const checkLogin = computed(() => {
-    if (localStorage.getItem('token'))
-        return true;
-
-    return false;
-})
-
+const accountStore = useAccountStore();
+const router = useRouter();
 </script>
 
 <style scoped>

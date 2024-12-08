@@ -1,5 +1,5 @@
 <template>
-  <Header @searchForm="searchForm" />
+  <Header />
   <router-view />
   <Footer />
 </template>
@@ -8,14 +8,12 @@
 import { onMounted } from 'vue';
 import Header from './view/Header.vue';
 import Footer from './view/Footer.vue';
-import { useCatalog } from './custom/useCatalog';
-import { useStore } from 'vuex';
+import { useCatalogStore } from './store/catalog';
 
-const store = useStore();
-const { productList } = useCatalog();
+const catalogStore = useCatalogStore();
 
 onMounted(() => {
-  store.dispatch('updateProducts', productList);
+  catalogStore.loadProducts()
 })
 </script>
 

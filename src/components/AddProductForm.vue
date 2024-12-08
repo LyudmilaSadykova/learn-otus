@@ -47,10 +47,9 @@
 import { ref, computed } from 'vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as yup from 'yup';
-import { useStore } from 'vuex';
+import { useCatalogStore } from '../store/catalog';
 
-const store = useStore();
-const productList = computed(() => store.getters.getProducts);
+const catalogStore = useCatalogStore();
 const valid = ref(false)
 const hideForm = ref(false);
 
@@ -68,7 +67,7 @@ function onInvalidSubmit({ values, errors, results }) {
 function onSubmit(values) {
     //alert(JSON.stringify(values, null, 2));
     let product = {
-        id: productList.value.length + 1,
+        id: catalogStore.productList.length + 1,
         category: values.category,
         title: values.title,
         price: values.price,
@@ -80,7 +79,7 @@ function onSubmit(values) {
         }
     }
 
-    store.dispatch('addProduct', product);
+    catalogStore.addProduct(product);
 
     hideForm.value= true;
 }

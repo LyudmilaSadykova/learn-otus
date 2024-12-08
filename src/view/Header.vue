@@ -2,7 +2,7 @@
   <div class="header">
     <Navigation />
     <div>
-      <SearchForm v-show="showForm" @searchForm="$emit('searchForm', $event)" />
+      <SearchForm v-show="showForm" />
     </div>
   </div>
 </template>

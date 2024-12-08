@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../view/Home.vue";
 import ProductCatalog from "../components/ProductCatalog.vue";
-import ProductCard from "../components/ProductCard.vue";
 import Basket from "../components/Basket.vue";
 import AddProductForm from "../components/AddProductForm.vue";
 import Page404 from "../view/Page404.vue";
 import LoginForm from "../view/LoginForm.vue";
 import ProductDetail from "../components/ProductDetail.vue";
+import AccountForm from "../components/AccountForm.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,6 +39,11 @@ const router = createRouter({
         component: AddProductForm
       },
       {
+        path: '/account',
+        name: 'account',
+        component: AccountForm
+      },
+      {
         path: '/login',
         name: 'login',
         component: LoginForm
@@ -53,10 +58,10 @@ const router = createRouter({
   })
 
   router.beforeEach((to, from, next) => {
-    if (to.name === 'add-product')
+    if (to.name === 'account')
       if (!localStorage.getItem('token') && to.name !== 'login')
         next({ name: 'login' })
-      
+    
     next()
   })
 

@@ -33,7 +33,7 @@
                     <v-btn
                         v-if="props.add"
                         variant="tonal"
-                        @click="store.dispatch('addToBasket', props.product)"
+                        @click="basketStore.addToBasket(props.product)"
                     >
                         Добавить в корзину
                     </v-btn>
@@ -65,10 +65,10 @@
 </template>
 
 <script setup>
-import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import { useBasketStore } from '../store/basket';
 
-const store = useStore();
+const basketStore = useBasketStore();
 const router = useRouter();
 const props = defineProps({
     product: {

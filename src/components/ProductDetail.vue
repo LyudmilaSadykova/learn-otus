@@ -33,7 +33,7 @@
                     <v-card-actions>
                         <v-btn
                             variant="tonal"
-                            @click="store.dispatch('addToBasket', product)"
+                            @click="basketStore.addToBasket(product)"
                         >
                             Добавить в корзину
                         </v-btn>
@@ -62,6 +62,9 @@
 <script setup>
 import { useProduct } from '../custom/useProduct';
 import { useRoute } from 'vue-router';
+import { useBasketStore } from '../store/basket';
+
+const basketStore = useBasketStore();
 
 const route = useRoute();
 const { loading, errorState, product } = useProduct(route.params.productId);

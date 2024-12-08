@@ -2,7 +2,7 @@
   <h1>{{ Каталог }}</h1>
   <v-row justify="center">
     <v-col
-      v-for="(item, index) in productListFiltered" 
+      v-for="(item, index) in catalogStore.productListFiltered" 
       :key="index"
       cols="12"
       md="6"
@@ -13,12 +13,10 @@
 </template>
   
 <script setup>
-import { computed} from 'vue';
 import ProductCard from '../components/ProductCard.vue';
-import { useStore } from 'vuex';
+import { useCatalogStore } from '../store/catalog';
 
-const store = useStore();
-const productListFiltered = computed(() => store.getters.filteredProducts);
+const catalogStore = useCatalogStore();
 </script>
   
 <style scoped>

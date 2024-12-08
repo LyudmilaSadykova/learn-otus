@@ -1,28 +1,31 @@
 <template>
-    <h1>Администрирование каталога продуктов</h1>
+    <h1>Войти в аккаунт</h1>
+    <div v-if="valid" class="valid">
+        Проверьте правильность заполнения полей
+    </div>
     <Form @submit="onSubmit" :validation-schema="schema" @invalid-submit="onInvalidSubmit">
-            <v-row>
-                <v-col cols="5" class="left-col">Логин</v-col>
-                <v-col cols="7">
-                    <Field name="login" type="string" />
-                    <ErrorMessage name="login" />
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col cols="5" class="left-col">Пароль</v-col>
-                <v-col cols="7">
-                    <Field name="password" type="password" />
-                    <ErrorMessage name="password" />
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col cols="12" class="search-btn">
-                    <button>
-                        Войти
-                    </button>
-                </v-col>    
-            </v-row>
-        </Form>
+        <v-row>
+            <v-col cols="5" class="left-col">Логин</v-col>
+            <v-col cols="7">
+                <Field name="login" type="string" />
+                <ErrorMessage name="login" />
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col cols="5" class="left-col">Пароль</v-col>
+            <v-col cols="7">
+                <Field name="password" type="password" />
+                <ErrorMessage name="password" />
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col cols="12" class="search-btn">
+                <button>
+                    Войти
+                </button>
+            </v-col>    
+        </v-row>
+    </Form>
 </template>
 
 <script setup>
@@ -30,9 +33,11 @@ import { ref } from 'vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as yup from 'yup';
 import { useRouter } from 'vue-router';
+import { useAccountStore } from '../store/user';
+
+const accountStore = useAccountStore();
 
 const valid = ref(false)
-const formData = ref([]);
 
 const schema = yup.object({
     login: yup.string().required(),
@@ -42,16 +47,13 @@ const schema = yup.object({
 const router = useRouter();
 
 function onSubmit(values) {
-    localStorage.setItem('token', values.login + values.password);
-    router.push({ name: 'add-product' });
-    
+    accountStore.loginUser(values.login + values.password);
+    router.push({ name: 'account' });
 }
 
 function onInvalidSubmit({ values, errors, results }) {
     valid.value = true;
 }
-
-
 </script>
 
 <style scoped>
@@ -92,12 +94,5 @@ button {
     border-radius: 5px;
     color: #283593;
     background-color: #E8EAF6;
-}
-.resSendForm {
-    color: #283593;
-    font-size: 16px;
-    margin-bottom: 10px;
-    justify-content: center;
-    display: flex;
 }
 </style>

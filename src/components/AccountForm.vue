@@ -1,14 +1,8 @@
 <template>
-    <div v-if="resSendForm" class="resSendForm">
-        Ваш заказ отправлен успешно!
+    <div v-if="savedData" class="resSendForm">
+        Ваши данные сохранены успешно!
     </div>
     <div v-else>
-        <ProductCard v-for="item in basketStore.basketList" :key="item.id" :product="item" :add="false" />
-        <div v-if="basketStore.basketList.length" class="clear-btn">
-            <v-btn @click="basketStore.clearBasket">
-                Очистить корзину
-            </v-btn>
-        </div>
         <div v-if="valid" class="valid">
             Проверьте правильность заполнения полей
         </div>
@@ -61,30 +55,9 @@
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="5" class="left-col">Номер карты</v-col>
-                <v-col cols="7">
-                    <Field name="card_number" type="number" />
-                    <ErrorMessage name="card_number" />
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col cols="5" class="left-col">CVV код карты</v-col>
-                <v-col cols="7">
-                    <Field name="card_cvv" type="number" />
-                    <ErrorMessage name="card_cvv" />
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col cols="5" class="left-col">Имя владельца карты</v-col>
-                <v-col cols="7">
-                    <Field name="card_name" type="string" />
-                    <ErrorMessage name="card_name" />
-                </v-col>
-            </v-row>
-            <v-row>
                 <v-col cols="12" class="search-btn">
                     <button>
-                        Отправить заказ
+                        Сохранить
                     </button>
                 </v-col>    
             </v-row>
@@ -94,21 +67,14 @@
 
 <script setup>
 import { ref } from 'vue';
-import ProductCard from './ProductCard.vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as yup from 'yup';
-import axios from 'axios';
-import { useBasketStore } from '../store/basket';
 import { useAccountStore } from '../store/user';
 
-const basketStore = useBasketStore();
 const accountStore = useAccountStore();
 
 const valid = ref(false)
-const formData = ref([]);
-const loading = ref(true);
-const errorState = ref(false);
-const resSendForm = ref(false);
+const savedData = ref(false)
 
 const schema = yup.object({
     name: yup.string().required(),
@@ -117,32 +83,15 @@ const schema = yup.object({
     birthday: yup.date().required(),
     selectedCountry: yup.string().required().oneOf(["ru", "us", "au"]),
     address: yup.string().required(),
-    card_number: yup.number().required().min(16),
-    card_cvv:yup.number().required().min(3),
-    card_name:yup.string().required(),
 });
 
 function onSubmit(values) {
     //alert(JSON.stringify(values, null, 2));
-    formData.value = {...basketStore.basketList, ...values};
-    //console.log(formData.value);
-    sendOrder();
+    accountStore.saveData(values);
+    savedData.value = true;
 }
 function onInvalidSubmit({ values, errors, results }) {
     valid.value = true;
-}
-
-const sendOrder = async () => {
-  await axios.post('http://httpbin.org/post', formData.value)
-  .then(response => {
-    if (response.status === 200)
-        resSendForm.value = true;
-  })
-  .catch(error => {
-    errorState.value = true
-    //console.log(error);
-})
-  .finally(() => loading.value = false)
 }
 </script>
 
