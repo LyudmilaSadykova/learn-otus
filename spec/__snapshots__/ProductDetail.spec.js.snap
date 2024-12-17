@@ -1,0 +1,68 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ProductDetail component > mount without errors 1`] = `
+<div
+  class="detail"
+  data-v-4e42be35=""
+>
+  <v-card
+    class="mx-auto"
+    color="indigo-darken-3"
+    data-v-4e42be35=""
+    hover=""
+    variant="text"
+  >
+    <v-card-title
+      data-v-4e42be35=""
+    >
+      
+    </v-card-title>
+    <div
+      class="d-flex flex-no-wrap justify-space-between"
+      data-v-4e42be35=""
+    >
+      <div
+        data-v-4e42be35=""
+      >
+        <v-card-subtitle
+          data-v-4e42be35=""
+        >
+          
+        </v-card-subtitle>
+        <v-card-text
+          data-v-4e42be35=""
+        >
+          
+        </v-card-text>
+        <v-card-text
+          data-v-4e42be35=""
+        >
+           Price: $ 
+        </v-card-text>
+        <!--v-if-->
+        <v-card-actions
+          data-v-4e42be35=""
+        >
+          <v-btn
+            data-v-4e42be35=""
+            variant="tonal"
+          >
+             Добавить в корзину 
+          </v-btn>
+        </v-card-actions>
+      </div>
+      <v-avatar
+        class="ma-3"
+        data-v-4e42be35=""
+        rounded="0"
+        size="200"
+      >
+        <div
+          class="box"
+          data-v-4e42be35=""
+        />
+      </v-avatar>
+    </div>
+  </v-card>
+</div>
+`;

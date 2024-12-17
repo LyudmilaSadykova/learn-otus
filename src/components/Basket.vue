@@ -3,11 +3,14 @@
         Ваш заказ отправлен успешно!
     </div>
     <div v-else>
-        <ProductCard v-for="item in basketStore.basketList" :key="item.id" :product="item" :add="false" />
+        <ProductCard v-for="item in basketStore.basketList" :key="item.id" :product="item" :add="false" :del="true" />
         <div v-if="basketStore.basketList.length" class="clear-btn">
             <v-btn @click="basketStore.clearBasket">
                 Очистить корзину
             </v-btn>
+        </div>
+        <div class="resSendForm">
+            Товаров в корзине: <span data-testid="count">{{ basketStore.basketList.length }}</span>
         </div>
         <div v-if="valid" class="valid">
             Проверьте правильность заполнения полей

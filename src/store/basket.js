@@ -12,5 +12,9 @@ export const useBasketStore = defineStore('basket', () => {
         basketList.value = [];
     }
 
-    return { basketList, addToBasket, clearBasket }
+    function delToBasket(id) {
+        basketList.value = JSON.parse(JSON.stringify(basketList.value.filter((item) => item.id !== id)));
+    }
+
+    return { basketList, addToBasket, clearBasket, delToBasket }
 })

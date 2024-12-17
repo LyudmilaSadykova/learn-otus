@@ -6,6 +6,7 @@
       :key="index"
       cols="12"
       md="6"
+      data-testid="index"
       >
       <ProductCard :product="item"/>
     </v-col>

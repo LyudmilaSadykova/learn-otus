@@ -3,7 +3,7 @@
     <div v-if="valid" class="valid">
         Проверьте правильность заполнения полей
     </div>
-    <Form @submit="onSubmit" :validation-schema="schema" @invalid-submit="onInvalidSubmit">
+    <Form @submit="onSubmit" :validation-schema="schema" @invalid-submit="onInvalidSubmit" v-show="!accountStore.isAuth">
         <v-row>
             <v-col cols="5" class="left-col">Логин</v-col>
             <v-col cols="7">
@@ -26,6 +26,7 @@
             </v-col>    
         </v-row>
     </Form>
+    <div class="valid_message" v-show="accountStore.isAuth">Заполните данные профиля для оформления заказа</div>
 </template>
 
 <script setup>
@@ -48,7 +49,7 @@ const router = useRouter();
 
 function onSubmit(values) {
     accountStore.loginUser(values.login + values.password);
-    router.push({ name: 'account' });
+    //router.push({ name: 'account' });
 }
 
 function onInvalidSubmit({ values, errors, results }) {
@@ -66,6 +67,13 @@ form {
 }
 .valid {
     color: red;
+    font-size: 16px;
+    margin-bottom: 10px;
+    justify-content: center;
+    display: flex;
+}
+.valid_message {
+    color: #283593;
     font-size: 16px;
     margin-bottom: 10px;
     justify-content: center;

@@ -1,0 +1,87 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`LoginForm component > mount without errors 1`] = `
+<div
+  data-v-app=""
+>
+  
+  <h1
+    data-v-366a8352=""
+  >
+    Войти в аккаунт
+  </h1>
+  <!--v-if-->
+  <form
+    data-v-366a8352=""
+    novalidate=""
+  >
+    <v-row
+      data-v-366a8352=""
+    >
+      <v-col
+        class="left-col"
+        cols="5"
+        data-v-366a8352=""
+      >
+        Логин
+      </v-col>
+      <v-col
+        cols="7"
+        data-v-366a8352=""
+      >
+        <input
+          data-v-366a8352=""
+          name="login"
+          type="string"
+        />
+        <!---->
+      </v-col>
+    </v-row>
+    <v-row
+      data-v-366a8352=""
+    >
+      <v-col
+        class="left-col"
+        cols="5"
+        data-v-366a8352=""
+      >
+        Пароль
+      </v-col>
+      <v-col
+        cols="7"
+        data-v-366a8352=""
+      >
+        <input
+          data-v-366a8352=""
+          name="password"
+          type="password"
+        />
+        <!---->
+      </v-col>
+    </v-row>
+    <v-row
+      data-v-366a8352=""
+    >
+      <v-col
+        class="search-btn"
+        cols="12"
+        data-v-366a8352=""
+      >
+        <button
+          data-v-366a8352=""
+        >
+           Войти 
+        </button>
+      </v-col>
+    </v-row>
+  </form>
+  <div
+    class="valid_message"
+    data-v-366a8352=""
+    style="display: none;"
+  >
+    Заполните данные профиля для оформления заказа
+  </div>
+  
+</div>
+`;

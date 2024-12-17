@@ -43,6 +43,13 @@
                     >
                         Подробнее
                     </v-btn>
+                    <v-btn
+                        v-if="props.del"
+                        variant="tonal"
+                        @click="basketStore.delToBasket(props.product.id)"
+                    >
+                        Удалить из корзины
+                    </v-btn>
                 </v-card-actions>
             </div>
 
@@ -78,6 +85,11 @@ const props = defineProps({
     add: {
         type: Boolean,
         default: true,
+        required: false
+    },
+    del: {
+        type: Boolean,
+        default: false,
         required: false
     },
 })
